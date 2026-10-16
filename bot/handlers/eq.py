@@ -1,3 +1,5 @@
+import random
+
 from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
@@ -46,10 +48,13 @@ router = Router()
 
 @router.message(F.text == "❤️ EQ testi")
 async def start_eq(message: Message, state: FSMContext):
-    await state.set_state(EQTest.answering)
-    await state.update_data(index=0, scores={})
+    # Savollar tartibi har testda tasodifiy
+    order = random.sample(range(len(EQ_QUESTIONS)), len(EQ_QUESTIONS))
 
-    question = EQ_QUESTIONS[0]
+    await state.set_state(EQTest.answering)
+    await state.update_data(index=0, scores={}, order=order)
+
+    question = EQ_QUESTIONS[order[0]]
     await message.answer(
         f"1/{len(EQ_QUESTIONS)}\n\n{question['text']}",
         reply_markup=eq_answer_keyboard(question),
@@ -61,8 +66,9 @@ async def handle_eq_answer(callback: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     index = data["index"]
     scores = data["scores"]
+    order = data["order"]
 
-    question = EQ_QUESTIONS[index]
+    question = EQ_QUESTIONS[order[index]]
     chosen = int(callback.data.split(":")[1])
     score = question["options"][chosen]["score"]
 
@@ -73,7 +79,7 @@ async def handle_eq_answer(callback: CallbackQuery, state: FSMContext):
     await state.update_data(index=index, scores=scores)
 
     if index < len(EQ_QUESTIONS):
-        next_question = EQ_QUESTIONS[index]
+        next_question = EQ_QUESTIONS[order[index]]
         await callback.message.edit_text(
             f"{index + 1}/{len(EQ_QUESTIONS)}\n\n{next_question['text']}",
             reply_markup=eq_answer_keyboard(next_question),
