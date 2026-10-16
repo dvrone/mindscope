@@ -4,6 +4,7 @@ from aiogram.types import CallbackQuery, Message
 
 from bot.data.mbti_questions import MBTI_QUESTIONS
 from bot.data.mbti_types import MBTI_TYPES
+from bot.database import save_result
 from bot.keyboards.mbti import mbti_answer_keyboard
 from bot.states import MBTITest
 
@@ -57,6 +58,7 @@ async def handle_answer(callback: CallbackQuery, state: FSMContext):
     else:
         mbti_type = calculate_type(scores)
         info = MBTI_TYPES[mbti_type]
+        await save_result(callback.from_user.id, "MBTI", mbti_type)
         await state.clear()
         await callback.message.edit_text(
             f"✅ Test tugadi!\n\n"

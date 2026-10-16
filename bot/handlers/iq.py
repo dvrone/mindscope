@@ -3,6 +3,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
 from bot.data.iq_questions import IQ_QUESTIONS
+from bot.database import save_result
 from bot.keyboards.iq import iq_answer_keyboard
 from bot.states import IQTest
 
@@ -60,6 +61,7 @@ async def handle_iq_answer(callback: CallbackQuery, state: FSMContext):
         total = len(IQ_QUESTIONS)
         iq = calculate_iq(correct, total)
         level = iq_level(iq)
+        await save_result(callback.from_user.id, "IQ", f"{iq} ({correct}/{total})")
         await state.clear()
         await callback.message.edit_text(
             f"✅ Test tugadi!\n\n"

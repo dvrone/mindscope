@@ -3,6 +3,7 @@ from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
 
 from bot.data.eq_questions import EQ_QUESTIONS
+from bot.database import save_result
 from bot.keyboards.eq import eq_answer_keyboard
 from bot.states import EQTest
 
@@ -79,6 +80,7 @@ async def handle_eq_answer(callback: CallbackQuery, state: FSMContext):
         total = sum(scores.values())
         level = eq_level(total)
         report = build_area_report(scores)
+        await save_result(callback.from_user.id, "EQ", f"{total}/{MAX_TOTAL}")
         await state.clear()
         await callback.message.edit_text(
             f"✅ Test tugadi!\n\n"

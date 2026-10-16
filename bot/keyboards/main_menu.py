@@ -6,6 +6,7 @@ def main_menu() -> ReplyKeyboardMarkup:
         keyboard=[
             [KeyboardButton(text="🧠 MBTI testi")],
             [KeyboardButton(text="📊 IQ testi"), KeyboardButton(text="❤️ EQ testi")],
+            [KeyboardButton(text="📋 Mening natijalarim")],
         ],
         resize_keyboard=True,
     )
