@@ -1,5 +1,6 @@
 import asyncio
 import logging
+from logging.handlers import RotatingFileHandler
 
 from aiogram import Bot, Dispatcher
 from aiogram.types import BotCommand
@@ -8,7 +9,19 @@ from bot.config import BOT_TOKEN
 from bot.database import init_db
 from bot.handlers import admin, eq, errors, fallback, iq, mbti, results, start
 
-logging.basicConfig(level=logging.INFO)
+
+def setup_logging():
+    handlers = [
+        logging.StreamHandler(),
+        RotatingFileHandler(
+            "bot.log", maxBytes=1_000_000, backupCount=3, encoding="utf-8"
+        ),
+    ]
+    logging.basicConfig(
+        level=logging.INFO,
+        format="%(asctime)s %(levelname)s %(name)s: %(message)s",
+        handlers=handlers,
+    )
 
 
 async def set_commands(bot: Bot):
@@ -22,6 +35,7 @@ async def set_commands(bot: Bot):
 
 
 async def main():
+    setup_logging()
     await init_db()
 
     bot = Bot(token=BOT_TOKEN)
