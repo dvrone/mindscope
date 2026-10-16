@@ -135,4 +135,48 @@ EQ_QUESTIONS = [
             {"text": "Yumshoq aytaman, lekin maqsadni aniq bildirmayman", "score": 3},
         ],
     },
+    # Qo'shimcha savollar
+    {
+        "area": "self_awareness",
+        "text": "Biror narsadan g'azablanganingizda...",
+        "options": [
+            {"text": "Nega g'azablanganimni darhol tushunaman", "score": 4},
+            {"text": "G'azabimni bostirib, sezmaslikka olaman", "score": 2},
+            {"text": "Keyinroq, tinchlangach sababini anglayman", "score": 3},
+            {"text": "Faqat portlab bo'lgach sezaman", "score": 1},
+        ],
+    },
+    {
+        "area": "self_regulation",
+        "text": "Ijtimoiy tarmoqda sizni tanqid qilishsa, siz...",
+        "options": [
+            {"text": "Darhol qattiq javob yozaman", "score": 1},
+            {"text": "Tanqidda foydali jihat bormi, o'ylab ko'raman", "score": 4},
+            {"text": "Javob bermayman, lekin kun bo'yi o'ylab yuraman", "score": 2},
+            {"text": "E'tibor bermayman va o'z ishimni davom ettiraman", "score": 3},
+        ],
+    },
+    {
+        "area": "empathy",
+        "text": "Yaqiningiz muvaffaqiyatga erishsa, siz...",
+        "options": [
+            {
+                "text": "Ichimdan chin dildan xursand bo'laman va tabriklayman",
+                "score": 4,
+            },
+            {"text": "Tabriklayman, lekin o'zimni u bilan solishtiraman", "score": 2},
+            {"text": "Xursand bo'laman, lekin buni aytmasligim mumkin", "score": 3},
+            {"text": "Unchalik e'tibor bermayman", "score": 1},
+        ],
+    },
+    {
+        "area": "social",
+        "text": "Jamoada sizning fikringiz rad etilsa, siz...",
+        "options": [
+            {"text": "Xafa bo'lib, keyingi muhokamalarda qatnashmayman", "score": 1},
+            {"text": "Sababini so'rab, jamoa qarorini qabul qilaman", "score": 4},
+            {"text": "Qarorga qo'shilmasam ham, jim turaman", "score": 2},
+            {"text": "Fikrimni yana bir bor asoslab ko'raman", "score": 3},
+        ],
+    },
 ]

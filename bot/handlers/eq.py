@@ -14,17 +14,19 @@ AREA_NAMES = {
     "social": "Ijtimoiy ko'nikmalar",
 }
 
-MAX_TOTAL = 48
-MAX_PER_AREA = 12
+# Har savol uchun maksimal ball 4, sohalar soni 4
+MAX_TOTAL = len(EQ_QUESTIONS) * 4
+MAX_PER_AREA = MAX_TOTAL // len(AREA_NAMES)
 
 
 def eq_level(total: int) -> str:
-    # Minimal ball 12, maksimal 48
-    if total >= 40:
+    # Daraja umumiy maksimal ballning ulushiga qarab aniqlanadi
+    ratio = total / MAX_TOTAL
+    if ratio >= 0.83:
         return "Juda yuqori"
-    if total >= 32:
+    if ratio >= 0.67:
         return "Yuqori"
-    if total >= 24:
+    if ratio >= 0.5:
         return "O'rtacha"
     return "Rivojlantirish kerak"
 
