@@ -40,3 +40,18 @@ async def clear_results(user_id: int):
     async with aiosqlite.connect(DB_PATH) as db:
         await db.execute("DELETE FROM results WHERE user_id = ?", (user_id,))
         await db.commit()
+
+
+async def get_stats():
+    async with aiosqlite.connect(DB_PATH) as db:
+        cursor = await db.execute(
+            "SELECT COUNT(DISTINCT user_id), COUNT(*) FROM results"
+        )
+        users, total = await cursor.fetchone()
+
+        cursor = await db.execute(
+            "SELECT test_type, COUNT(*) FROM results GROUP BY test_type"
+        )
+        per_test = await cursor.fetchall()
+
+    return users, total, per_test
