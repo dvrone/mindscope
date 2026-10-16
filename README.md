@@ -1,5 +1,7 @@
 # MindScope
 
+![Tests](https://github.com/dvrone/mindscope/actions/workflows/tests.yml/badge.svg)
+
 A Telegram bot that estimates your MBTI type, IQ and EQ levels.
 
 ## Features
