@@ -1,3 +1,5 @@
+import random
+
 from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
@@ -25,10 +27,13 @@ router = Router()
 
 @router.message(F.text == "🧠 MBTI testi")
 async def start_mbti(message: Message, state: FSMContext):
-    await state.set_state(MBTITest.answering)
-    await state.update_data(index=0, scores={})
+    # Savollar tartibi har testda tasodifiy
+    order = random.sample(range(len(MBTI_QUESTIONS)), len(MBTI_QUESTIONS))
 
-    question = MBTI_QUESTIONS[0]
+    await state.set_state(MBTITest.answering)
+    await state.update_data(index=0, scores={}, order=order)
+
+    question = MBTI_QUESTIONS[order[0]]
     await message.answer(
         f"1/{len(MBTI_QUESTIONS)}\n\n{question['text']}",
         reply_markup=mbti_answer_keyboard(question),
@@ -40,8 +45,9 @@ async def handle_answer(callback: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     index = data["index"]
     scores = data["scores"]
+    order = data["order"]
 
-    question = MBTI_QUESTIONS[index]
+    question = MBTI_QUESTIONS[order[index]]
     choice = "a" if callback.data == "mbti:a" else "b"
     letter = question[choice]["letter"]
     scores[letter] = scores.get(letter, 0) + 1
@@ -50,7 +56,7 @@ async def handle_answer(callback: CallbackQuery, state: FSMContext):
     await state.update_data(index=index, scores=scores)
 
     if index < len(MBTI_QUESTIONS):
-        next_question = MBTI_QUESTIONS[index]
+        next_question = MBTI_QUESTIONS[order[index]]
         await callback.message.edit_text(
             f"{index + 1}/{len(MBTI_QUESTIONS)}\n\n{next_question['text']}",
             reply_markup=mbti_answer_keyboard(next_question),
