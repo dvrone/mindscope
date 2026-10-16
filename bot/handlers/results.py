@@ -1,3 +1,6 @@
+from datetime import datetime, timezone
+from zoneinfo import ZoneInfo
+
 from aiogram import F, Router
 from aiogram.types import CallbackQuery, Message
 
@@ -5,6 +8,14 @@ from bot.database import clear_results, get_results
 from bot.keyboards.results import clear_keyboard, confirm_clear_keyboard
 
 router = Router()
+
+TZ = ZoneInfo("Asia/Tashkent")
+
+
+def format_date(value: str) -> str:
+    # Bazada vaqt UTC'da saqlanadi, ko'rsatishda Toshkent vaqtiga o'tkazamiz
+    dt = datetime.strptime(value, "%Y-%m-%d %H:%M:%S").replace(tzinfo=timezone.utc)
+    return dt.astimezone(TZ).strftime("%d.%m.%Y %H:%M")
 
 
 @router.message(F.text == "📋 Mening natijalarim")
@@ -19,8 +30,7 @@ async def show_results(message: Message):
 
     lines = ["📋 <b>Oxirgi natijalaringiz:</b>\n"]
     for test_type, result, created_at in rows:
-        date = created_at[:16]
-        lines.append(f"{date} | {test_type}: <b>{result}</b>")
+        lines.append(f"{format_date(created_at)} | {test_type}: <b>{result}</b>")
 
     await message.answer(
         "\n".join(lines),
@@ -44,5 +54,5 @@ async def do_clear(callback: CallbackQuery):
 
 @router.callback_query(F.data == "results:cancel")
 async def cancel_clear(callback: CallbackQuery):
-    await callback.message.edit_reply_markup(reply_markup=clear_keyboard())
+    await callback.message.edit_reply_markup(reply_markup=confirm_clear_keyboard())
     await callback.answer("Bekor qilindi.")
