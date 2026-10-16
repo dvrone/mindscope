@@ -22,6 +22,17 @@ def calculate_type(scores: dict) -> str:
     return result
 
 
+def build_breakdown(scores: dict) -> str:
+    lines = []
+    for first, second in ("EI", "SN", "TF", "JP"):
+        a = scores.get(first, 0)
+        b = scores.get(second, 0)
+        total = a + b
+        percent_first = round(a / total * 100) if total else 0
+        lines.append(f"{first} {percent_first}% — {100 - percent_first}% {second}")
+    return "\n".join(lines)
+
+
 router = Router()
 
 
@@ -64,12 +75,14 @@ async def handle_answer(callback: CallbackQuery, state: FSMContext):
     else:
         mbti_type = calculate_type(scores)
         info = MBTI_TYPES[mbti_type]
+        breakdown = build_breakdown(scores)
         await save_result(callback.from_user.id, "MBTI", mbti_type)
         await state.clear()
         await callback.message.edit_text(
             f"✅ Test tugadi!\n\n"
             f"Sizning MBTI tipingiz: <b>{mbti_type}</b> — {info['name']}\n\n"
-            f"{info['description']}",
+            f"{info['description']}\n\n"
+            f"<b>O'lchovlar bo'yicha:</b>\n{breakdown}",
             parse_mode="HTML",
         )
 
