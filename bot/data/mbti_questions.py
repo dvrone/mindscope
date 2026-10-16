@@ -78,4 +78,53 @@ MBTI_QUESTIONS = [
         "a": {"text": "Tartibli va joy-joyida", "letter": "J"},
         "b": {"text": "Biroz tartibsiz, lekin o'zim topaman", "letter": "P"},
     },
+    # Qo'shimcha savollar
+    {
+        "dimension": "EI",
+        "text": "Guruhda suhbat paytida siz odatda...",
+        "a": {"text": "Ko'p gapiraman va fikrimni darhol aytaman", "letter": "E"},
+        "b": {"text": "Ko'proq tinglayman va o'ylab gapiraman", "letter": "I"},
+    },
+    {
+        "dimension": "EI",
+        "text": "Katta tadbirda siz...",
+        "a": {"text": "Ko'plab odamlar bilan gaplashaman", "letter": "E"},
+        "b": {"text": "Bir-ikki yaqin odam bilan chuqur suhbatlashaman", "letter": "I"},
+    },
+    {
+        "dimension": "SN",
+        "text": "Sizni nima ko'proq qiziqtiradi?",
+        "a": {"text": "Hozir nima bor va qanday ishlaydi", "letter": "S"},
+        "b": {"text": "Nima bo'lishi mumkin va nima uchun", "letter": "N"},
+    },
+    {
+        "dimension": "SN",
+        "text": "Hikoya yoki voqeani eshitganda siz...",
+        "a": {"text": "Aniq tafsilotlarga e'tibor beraman", "letter": "S"},
+        "b": {"text": "Umumiy ma'no va yashirin mazmunni izlayman", "letter": "N"},
+    },
+    {
+        "dimension": "TF",
+        "text": "Bahsda g'alaba qozonish uchun siz...",
+        "a": {"text": "Dalil va faktlarni keltiraman", "letter": "T"},
+        "b": {"text": "Suhbatdoshning his-tuyg'ularini hisobga olaman", "letter": "F"},
+    },
+    {
+        "dimension": "TF",
+        "text": "Rahbar bo'lsangiz, qaysi sifat muhimroq?",
+        "a": {"text": "Adolat va qat'iyat", "letter": "T"},
+        "b": {"text": "Hamdardlik va g'amxo'rlik", "letter": "F"},
+    },
+    {
+        "dimension": "JP",
+        "text": "Sayohatga chiqishdan oldin siz...",
+        "a": {"text": "Marshrut va joylarni oldindan belgilab qo'yaman", "letter": "J"},
+        "b": {"text": "Borib ko'rgach, qayerga borishni hal qilaman", "letter": "P"},
+    },
+    {
+        "dimension": "JP",
+        "text": "Ish yoki o'qishni boshlashda siz...",
+        "a": {"text": "Jadval tuzib, unga amal qilaman", "letter": "J"},
+        "b": {"text": "Kayfiyatim kelganda boshlayman", "letter": "P"},
+    },
 ]
