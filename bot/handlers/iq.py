@@ -1,3 +1,5 @@
+import random
+
 from aiogram import F, Router
 from aiogram.fsm.context import FSMContext
 from aiogram.types import CallbackQuery, Message
@@ -28,10 +30,13 @@ router = Router()
 
 @router.message(F.text == "📊 IQ testi")
 async def start_iq(message: Message, state: FSMContext):
-    await state.set_state(IQTest.answering)
-    await state.update_data(index=0, correct=0)
+    # Savollar tartibi har testda tasodifiy
+    order = random.sample(range(len(IQ_QUESTIONS)), len(IQ_QUESTIONS))
 
-    question = IQ_QUESTIONS[0]
+    await state.set_state(IQTest.answering)
+    await state.update_data(index=0, correct=0, order=order)
+
+    question = IQ_QUESTIONS[order[0]]
     await message.answer(
         f"1/{len(IQ_QUESTIONS)}\n\n{question['text']}",
         reply_markup=iq_answer_keyboard(question),
@@ -43,16 +48,17 @@ async def handle_iq_answer(callback: CallbackQuery, state: FSMContext):
     data = await state.get_data()
     index = data["index"]
     correct = data["correct"]
+    order = data["order"]
 
     chosen = int(callback.data.split(":")[1])
-    if chosen == IQ_QUESTIONS[index]["correct"]:
+    if chosen == IQ_QUESTIONS[order[index]]["correct"]:
         correct += 1
 
     index += 1
     await state.update_data(index=index, correct=correct)
 
     if index < len(IQ_QUESTIONS):
-        next_question = IQ_QUESTIONS[index]
+        next_question = IQ_QUESTIONS[order[index]]
         await callback.message.edit_text(
             f"{index + 1}/{len(IQ_QUESTIONS)}\n\n{next_question['text']}",
             reply_markup=iq_answer_keyboard(next_question),
