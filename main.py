@@ -6,7 +6,7 @@ from aiogram.types import BotCommand
 
 from bot.config import BOT_TOKEN
 from bot.database import init_db
-from bot.handlers import eq, fallback, iq, mbti, results, start
+from bot.handlers import eq, errors, fallback, iq, mbti, results, start
 
 logging.basicConfig(level=logging.INFO)
 
@@ -33,6 +33,7 @@ async def main():
     dp.include_router(eq.router)
     dp.include_router(results.router)
     dp.include_router(fallback.router)
+    dp.include_router(errors.router)
 
     await set_commands(bot)
     await dp.start_polling(bot)
