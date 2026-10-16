@@ -34,3 +34,9 @@ async def get_results(user_id: int, limit: int = 10):
             (user_id, limit),
         )
         return await cursor.fetchall()
+
+
+async def clear_results(user_id: int):
+    async with aiosqlite.connect(DB_PATH) as db:
+        await db.execute("DELETE FROM results WHERE user_id = ?", (user_id,))
+        await db.commit()

@@ -1,7 +1,8 @@
 from aiogram import F, Router
-from aiogram.types import Message
+from aiogram.types import CallbackQuery, Message
 
-from bot.database import get_results
+from bot.database import clear_results, get_results
+from bot.keyboards.results import clear_keyboard, confirm_clear_keyboard
 
 router = Router()
 
@@ -21,4 +22,27 @@ async def show_results(message: Message):
         date = created_at[:16]
         lines.append(f"{date} | {test_type}: <b>{result}</b>")
 
-    await message.answer("\n".join(lines), parse_mode="HTML")
+    await message.answer(
+        "\n".join(lines),
+        parse_mode="HTML",
+        reply_markup=clear_keyboard(),
+    )
+
+
+@router.callback_query(F.data == "results:ask_clear")
+async def ask_clear(callback: CallbackQuery):
+    await callback.message.edit_reply_markup(reply_markup=confirm_clear_keyboard())
+    await callback.answer("Rostdan ham barcha natijalar o'chirilsinmi?")
+
+
+@router.callback_query(F.data == "results:clear")
+async def do_clear(callback: CallbackQuery):
+    await clear_results(callback.from_user.id)
+    await callback.message.edit_text("🗑 Barcha natijalaringiz o'chirildi.")
+    await callback.answer()
+
+
+@router.callback_query(F.data == "results:cancel")
+async def cancel_clear(callback: CallbackQuery):
+    await callback.message.edit_reply_markup(reply_markup=clear_keyboard())
+    await callback.answer("Bekor qilindi.")
