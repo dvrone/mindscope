@@ -4,13 +4,16 @@ A Telegram bot that estimates your MBTI type, IQ and EQ levels.
 
 ## Features
 
-- 🧠 MBTI test (12 questions, with descriptions for all 16 types)
-- 📊 IQ test (10 questions, approximate IQ score and level)
-- ❤️ EQ test (12 questions, breakdown across four areas)
+- 🧠 MBTI test (20 questions, 16 type descriptions, percentage breakdown per dimension)
+- 📊 IQ test (20 questions, approximate IQ score and level)
+- ❤️ EQ test (16 questions, breakdown across four areas)
+- 📋 Result history stored in SQLite, with an option to clear it
+- Questions are shuffled on every attempt
+- `/stats` command for the admin
 
 ## Tech stack
 
-Python, aiogram 3, python-dotenv
+Python, aiogram 3, aiosqlite, python-dotenv
 
 ## Installation
 
@@ -22,13 +25,14 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-Create a `.env` file in the project root:
+Copy `.env.example` to `.env` and fill in the values:
 
-```
-BOT_TOKEN=your_bot_token_here
+```bash
+cp .env.example .env
 ```
 
-You can get a token from [@BotFather](https://t.me/BotFather) on Telegram.
+- `BOT_TOKEN`: get it from [@BotFather](https://t.me/BotFather) on Telegram
+- `ADMIN_ID`: your numeric Telegram ID (optional, only needed for `/stats`)
 
 ## Usage
 
@@ -36,7 +40,25 @@ You can get a token from [@BotFather](https://t.me/BotFather) on Telegram.
 python main.py
 ```
 
-Send `/start` to the bot to open the main menu, or `/cancel` to stop a test in progress.
+## Commands
+
+- `/start`: open the main menu
+- `/cancel`: stop the current test
+- `/help`: show help
+- `/stats`: usage statistics (admin only)
+
+## Project structure
+
+```
+bot/
+├── config.py       # environment variables
+├── database.py     # SQLite helpers
+├── states.py       # FSM states
+├── data/           # test questions and MBTI type descriptions
+├── handlers/       # message and callback handlers
+└── keyboards/      # reply and inline keyboards
+main.py             # entry point
+```
 
 ## Disclaimer
 
